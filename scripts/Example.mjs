@@ -24,7 +24,7 @@ export default async robot => {
       return
     }
   
-    await res.reply('Opening ' + doorType + '   doors')
+    await res.reply('Opening ' + doorType + ' doors')
   })
   
   robot.hear(/I like pie/i, async (res) => {

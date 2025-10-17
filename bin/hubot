@@ -4,7 +4,11 @@ export HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING
 
 set -e
 
+TOP=$(git rev-parse --show-toplevel)
+
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+
+[[ -f ${TOP}/.hubot_history ]] || touch ${TOP}/.hubot_history
 
 exec node_modules/.bin/hubot --name "Slash" "$@"
