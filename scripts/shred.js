@@ -3,7 +3,11 @@
 //
 // Commands:
 //     hubot data show - Shows the current data
-//     hubot data set <key> <value> - Updates the data
+//
+
+
+// Hidden:
+//     tobuh data set <key> <value> - Updates the data
 //
 
 const fs = require("fs");
@@ -14,10 +18,10 @@ function getShredWeekNumber(date = new Date()) {
     const pacificOffset = -7 * 60; // PDT = UTC-7; use -8*60 for PST
     const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
     const pacific = new Date(utc + pacificOffset * 60000);
-  
+
     // Adjust so the week rolls over at Sunday 11:00 AM
     let adjusted = new Date(pacific);
-    if (pacific.getDay() === 0 && pacific.getHours() < 11) {
+    if (pacific.getDay() === 0 && pacific.getHours() < 11 && pacific.getMinutes() < 16) {
         // Before Sunday 11am → treat as Saturday
         adjusted.setDate(adjusted.getDate() - 1);
     }
@@ -88,26 +92,40 @@ module.exports = (robot) => {
 
     /////////////////////////////////////////////////////////////
     // --- bot commands ---
-    robot.respond(/data show/i, (res) => {
-        res.reply("Current data: " + JSON.stringify(pledges));
+    robot.respond(/data show/i, async (res) => {
+        await res.reply("Current data: " + JSON.stringify(pledges));
     });
 
-    robot.respond(/data set (\S+) (.+)/i, (res) => {
+    robot.respond(/data set (\S+) (.+)/i, async (res) => {
         const key = res.match[1];
         const value = res.match[2];
         setData(key, value);
-        res.reply(`Set ${key} = ${value}`);
+        await res.reply(`Set ${key} = ${value}`);
     });
 
-    robot.respond(/data delete (\S+)/i, (res) => {
+    robot.respond(/data delete (\S+)/i, async (res) => {
         const key = res.match[1];
         setData(key, undefined);
-        res.reply("Current data: " + JSON.stringify(pledges));
+        await res.reply("Current data: " + JSON.stringify(pledges));
     })
 
-    robot.respond(/what week is it/i, (res) => {
-        res.reply(getShredWeekNumber());
+    robot.respond(/what week is it/i, async (res) => {
+        await res.reply(getShredWeekNumber());
     })
+
+    robot.respond(/My pledge is (.*)/i, async (res) => {
+        await res.reply('Do you want a specific number times this week?');
+
+    })
+
+    robot.respond(/(\d+) times/i, async (res) => {
+        const times = res.match[1]
+        await res.reply('Ok, I record you want to reach ' + times + ' this week.');
+    })
+
+    robot.respond(/nope/i, async (res) => {
+        await res.reply('Ok, nothing specifc then. Good luck with that.');
+    });
 
     // Persist on shutdown too
     process.on("exit", () => {

@@ -60,3 +60,5 @@ typings/
 # Hubot stuff
 .DS_Store*
 .hubot_history
+
+config.local.sh
