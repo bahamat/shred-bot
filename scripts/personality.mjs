@@ -6,31 +6,15 @@
 export default async robot => {
     const gratitude = ['thanks', 'thank you', 'ty', 'danke', 'merci', 'tah', 'gracias', 'grazie'];
     const gratitude_reply = ['de nada!', 'You\'re welcome!', 'Aww, shucks'];
-  
-    robot.respond(/DebugDump/, async (res) => {
-        // This dump the raw message only if  requested it.
-        if (res.message.user.id == 1031037811643650140) {
-            console.log("Debug info:\n" + JSON.stringify(res.message, null, 2));
-            return;
-        }
-    });
-
-    robot.respond(/say (.*)/i, async (res) => {
-        const phrase = res.match[1];
-        if (res.message.user.id == 1031037811643650140) {
-            await res.send(phrase);
-            return;
-        }
-    });
 
     robot.respond(/open the (.*) doors?/i, async (res) => {
         const doorType = res.match[1]
-  
+
         if (doorType === 'pod bay') {
             await res.reply('I\'m afraid I can\'t let you do that.')
             return
         }
-  
+
         await res.reply('Opening ' + doorType + ' doors')
     });
 
@@ -45,7 +29,7 @@ export default async robot => {
             await res.send(`${answer}, but what is the question?`)
             return
         }
-    
+
         await res.send('Missing HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING in environment: please set and try again')
     })
 
@@ -98,7 +82,7 @@ export default async robot => {
             await res.send("Literally the *warmest* color.");
         }
     });
-  
+
     robot.respond(/(what )?are you (real|for real|a bot)/, async (res) => {
         await res.send('Beep, boop. I\'m a bot.');
     });
