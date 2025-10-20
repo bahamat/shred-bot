@@ -5,7 +5,7 @@
   "author": "shred-bot",
   "description": "Slash / Pledge your Shred to me",
   "dependencies": {
-    "@hubot-friends/hubot-discord": "https://github.com/bahamat/hubot-discord.git#ca4806b9",
+    "@hubot-friends/hubot-discord": "^4.1.0",
     "hubot": "^11.0.0",
     "hubot-diagnostics": "^2.0.0",
     "hubot-help": "^2.0.0",
