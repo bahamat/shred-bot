@@ -1,5 +1,5 @@
 // Description:
-//     Give the bot a personality.
+//     REST access to the bot.
 
 export default async robot => {
     robot.router.post('/hubot/chatsecrets/:room', async (req, res) => {
@@ -10,5 +10,11 @@ export default async robot => {
         await robot.messageRoom(room, `I have a secret: ${secret}`)
 
         await res.send('OK')
+    });
+
+    robot.router.get('/hubot/ping', async (req, res) => {
+        var pong = { ping: "pong"}
+
+        await res.send(JSON.stringify(pong))
     });
 }

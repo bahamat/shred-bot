@@ -1,3 +1,5 @@
+#!/bin/bash
+
 TOP=$(git rev-parse --show-toplevel)
 
 export HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING=42
@@ -7,3 +9,4 @@ if [[ -f ${TOP}/configuration/config.local.sh ]]; then
 fi
 
 export HUBOT_MAX_MESSAGE_LENGTH="2000"
+export HUBOT_ADAPTER="${HUBOT_ADAPTER:=@hubot-friends/hubot-discord}"

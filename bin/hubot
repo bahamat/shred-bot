@@ -1,14 +1,18 @@
-#!/bin/bash -x
+#!/bin/bash
 
 set -e
 
 TOP=$(git rev-parse --show-toplevel)
+source "${TOP}/nvm/nvm.sh"
+nvm use --lts
+set -o xtrace
+
 source "${TOP}/configuration/config.sh"
 
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
-[[ -f ${TOP}/.hubot_history ]] || touch ${TOP}/.hubot_history
+[[ -f ${TOP}/.hubot_history ]] || touch "${TOP}/.hubot_history"
 
 #exec node_modules/.bin/hubot --name "Slash" "$@"
-exec node_modules/.bin/hubot "$@"
+exec node_modules/.bin/hubot --name "${bot_name:?}" "$@"
